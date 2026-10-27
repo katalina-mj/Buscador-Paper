@@ -1,0 +1,262 @@
+
+/* CONFIGURACIÓN GENERAL */
+
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "ComfortaaRegular";
+  src: url("./Fuente/Comfortaa-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ComfortaaBold";
+  src: url("./Fuente/Comfortaa-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ComfortaaLight";
+  src: url("./Fuente/Comfortaa-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  padding: 19px 22px;
+  background: #ffffff;
+  color: #080808;
+  font-family: "Comfortaa", sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* BUSCADOR */
+
+.buscador {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  border: 2px solid #cbd4dd;
+  border-radius: 30px;
+  overflow: visible;
+  background: #ffffff;
+}
+
+.buscador button {
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  margin: -2px 0 -2px -2px;
+  border: none;
+  border-radius: 50%;
+  background: #ff2878;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.lupa {
+  transform: translate(-2px, -2px);
+  width: 22px;
+  height: 22px;
+  border: 2px solid white;
+  border-radius: 50%;
+  position: relative;
+}
+
+.lupa::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  background: white;
+  right: -7px;
+  bottom: -4px;
+  transform: rotate(48deg);
+  border-radius: 7px;
+}
+
+.buscador input {
+  font-family: "ComfortaaRegular", sans-serif;
+  font-weight: 400;
+  flex: 1;
+  min-width: 0;
+  height:100%;
+  padding: 0 16px;
+  border: none;
+  outline: none;
+  color: #aaa6a6;
+  background: transparent;
+  font-size: 15px;
+
+}
+
+.buscador input::placeholder {
+  color: #aaa6a6;
+  text-align: center;
+  font-weight: 600;
+}
+/* ESTADO DE BÚSQUEDA */
+
+#estado {
+  margin: 18px 4px;
+  color: #777777;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+/* TARJETA DEL PRODUCTO */
+
+.producto {
+  width: 100%;
+  margin: 20px 0 12px;
+  padding: 22px 24px 20px;
+  border: 1px solid #cbd4dd;
+  border-radius: 20px;
+  background: #ffffff;
+}
+
+/* NOMBRE Y PRECIO EN LA MISMA FILA */
+
+.producto-encabezado {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.producto h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 3px 0 0;
+  color: #050505;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+/* PRECIO */
+
+.precio {
+  flex-shrink: 0;
+  margin: 0;
+  color: #7628b9;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* CATEGORÍA Y MARCA */
+
+.producto > p:not(.precio) {
+  margin: 0;
+  color: #111111;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.producto > p > strong {
+  font-family: "Comfortaa", sans-serif;
+  font-weight: 700;
+}
+
+/* DISPONIBILIDAD */
+
+.disponible,
+.agotado {
+  display: inline-block;
+  max-width: 100%;
+  margin-top: 13px;
+  padding: 7px 19px 8px;
+  border-radius: 30px;
+  color: #ffffff;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.disponible {
+  background: #00c36a;
+}
+
+.agotado {
+  background: #e53935;
+}
+
+/* ADAPTACIÓN A CELULARES */
+
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+  }
+
+  .producto {
+    padding: 18px 16px;
+    border-radius: 17px;
+  }
+
+  .producto-encabezado {
+    gap: 10px;
+    margin-bottom: 13px;
+  }
+
+  .producto h2 {
+    font-size: 19px;
+  }
+
+  .precio {
+    font-size: 23px;
+  }
+
+  .producto > p:not(.precio) {
+    font-size: 14px;
+  }
+
+  .disponible,
+  .agotado {
+    padding: 7px 16px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 350px) {
+  .producto-encabezado {
+    flex-wrap: wrap;
+  }
+
+  .producto h2 {
+    flex-basis: 100%;
+  }
+
+  .precio {
+    font-size: 23px;
+  }
+}
