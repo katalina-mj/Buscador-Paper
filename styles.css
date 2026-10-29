@@ -1,4 +1,3 @@
-
 /* CONFIGURACIÓN GENERAL */
 
 * {
@@ -150,7 +149,7 @@ body {
   min-width: 0;
   margin: 3px 0 0;
   color: #050505;
-  font-family: "Comfortaa", sans-serif;
+  font-family: "ComfortaaRegular", sans-serif;
   font-size: 23px;
   font-weight: 700;
   line-height: 1.3;
@@ -163,7 +162,7 @@ body {
   flex-shrink: 0;
   margin: 0;
   color: #7628b9;
-  font-family: "Comfortaa", sans-serif;
+  font-family: "ComfortaaRegular", sans-serif;
   font-size: 29px;
   font-weight: 700;
   line-height: 1.3;
@@ -175,14 +174,14 @@ body {
 .producto > p:not(.precio) {
   margin: 0;
   color: #111111;
-  font-family: "Comfortaa", sans-serif;
+  font-family: "ComfortaaLight", sans-serif;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.6;
 }
 
 .producto > p > strong {
-  font-family: "Comfortaa", sans-serif;
+  font-family: "ComfortaaRegular", sans-serif;
   font-weight: 700;
 }
 
@@ -196,7 +195,7 @@ body {
   padding: 7px 19px 8px;
   border-radius: 30px;
   color: #ffffff;
-  font-family: "Comfortaa", sans-serif;
+  font-family: "ComfortaaRegular", sans-serif;
   font-size: 21px;
   font-weight: 700;
   line-height: 1.3;
@@ -211,52 +210,108 @@ body {
   background: #e53935;
 }
 
-/* ADAPTACIÓN A CELULARES */
 
-@media (max-width: 480px) {
-  body {
-    padding: 16px;
-  }
+/* PRECIO POR UNIDAD: ETIQUETA DEBAJO */
 
-  .producto {
-    padding: 18px 16px;
-    border-radius: 17px;
-  }
-
-  .producto-encabezado {
-    gap: 10px;
-    margin-bottom: 13px;
-  }
-
-  .producto h2 {
-    font-size: 19px;
-  }
-
-  .precio {
-    font-size: 23px;
-  }
-
-  .producto > p:not(.precio) {
-    font-size: 14px;
-  }
-
-  .disponible,
-  .agotado {
-    padding: 7px 16px;
-    font-size: 18px;
-  }
+.producto-encabezado .precio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  margin: 0;
+  color: #7628b9;
+  font-family: "ComfortaaBold", sans-serif;
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 1.05;
+  white-space: nowrap;
 }
 
-@media (max-width: 350px) {
-  .producto-encabezado {
-    flex-wrap: wrap;
-  }
+.precio-valor {
+  display: block;
+}
 
-  .producto h2 {
-    flex-basis: 100%;
-  }
+.etiqueta-unidad {
+  display: block;
+  font-family: "ComfortaaRegular", sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.15;
+}
 
-  .precio {
+/* PRECIO POR PAQUETE */
+
+.producto > p.precio-paquete {
+  margin: 12px 0 4px;
+  color: #7628b9;
+  font-family: "ComfortaaRegular", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.valor-paquete {
+  font-size: inherit;
+}
+
+.etiqueta-paquete {
+  font-family: "ComfortaaRegular", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* AVISO: SOLO VENTA POR UNIDAD */
+
+.producto > p.solo-unidad {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 14px 0 5px;
+  color: #7628b9;
+  font-family: "ComfortaaRegular", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.icono-informacion {
+  flex-shrink: 0;
+  font-family: "ComfortaaRegular", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  -webkit-text-stroke: 0.9px currentColor;
+  line-height: 1;
+}
+
+/* AJUSTES PARA CELULARES */
+
+@media (max-width: 480px) {
+  .producto-encabezado .precio {
     font-size: 23px;
+    font-family: "ComfortaaRegular", sans-serif;
+  }
+
+  .etiqueta-unidad {
+    font-size: 14px;
+    font-family: "ComfortaaLight", sans-serif;
+  }
+
+  .producto > p.precio-paquete {
+    font-size: 21px;
+    font-family: "ComfortaaRegular", sans-serif;
+  }
+
+  .etiqueta-paquete {
+    font-size: 12px;
+  }
+
+  .producto > p.solo-unidad {
+    font-size: 13px;
+    font-family: "ComfortaaRegular", sans-serif;
+  }
+
+  .icono-informacion {
+    font-size: 21px;
+    font-family: "ComfortaaRegular", sans-serif;
   }
 }
