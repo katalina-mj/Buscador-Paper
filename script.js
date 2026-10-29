@@ -1,4 +1,3 @@
-
 const URL_CATALOGO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzQhxeH16fGky6EVaWV0tQvhhvh1EEqJjWkqPmxTa1Qo0C8I0z3Wj83vsbVIVL-z3tB7cwD2t_4YE2/pub?gid=0&single=true&output=csv";
 
 const formulario = document.getElementById("formulario-busqueda");
@@ -19,6 +18,30 @@ function normalizar(texto) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+// Convierte valores numéricos del catálogo.
+function leerNumero(valor) {
+  if (valor == null || String(valor).trim() === "") {
+    return null;
+  }
+
+  const texto = String(valor).trim();
+
+  if (normalizar(texto) === "no") {
+    return null;
+  }
+
+  // Admite valores como 15000, 15.000 y $15.000.
+  const limpio = texto
+    .replace(/\$/g, "")
+    .replace(/\s/g, "")
+    .replace(/\.(?=\d{3}(?:\D|$))/g, "")
+    .replace(",", ".");
+
+  const numero = Number(limpio);
+
+  return Number.isFinite(numero) ? numero : null;
+}
+
 // Convierte una fila del CSV en un producto.
 function convertirProducto(fila) {
   const datos = {};
@@ -27,18 +50,12 @@ function convertirProducto(fila) {
     datos[normalizar(clave)] = valor;
   }
 
-  function leerNumero(valor) {
-    if (valor === "" || valor == null) return null;
-
-    const numero = Number(valor);
-    return Number.isFinite(numero) ? numero : null;
-  }
-
   return {
     producto: String(datos.producto ?? "").trim(),
     categoria: String(datos.categoria ?? "").trim(),
     marca: String(datos.marca ?? "").trim(),
     precio: leerNumero(datos.precio),
+    paquete: leerNumero(datos.paquete),
     stock: leerNumero(datos.stock)
   };
 }
@@ -98,9 +115,12 @@ async function cargarCatalogo() {
     console.error("Error al cargar el catálogo:", error);
 
     if (!ultimaCargaCorrecta) {
-      estado.textContent = `Error al cargar el catálogo: ${error.message}`;
+      estado.textContent =
+        `Error al cargar el catálogo: ${error.message}`;
     } else {
-      console.warn("Se conservarán los datos de la última carga correcta.");
+      console.warn(
+        "Se conservarán los datos de la última carga correcta."
+      );
     }
   } finally {
     cargando = false;
@@ -143,16 +163,56 @@ function crearTarjeta(producto) {
   const nombre = document.createElement("h2");
   nombre.textContent = producto.producto;
 
+  // Precio por unidad con la etiqueta debajo.
   const precio = document.createElement("p");
   precio.className = "precio";
-  precio.textContent = formatearPrecio(producto.precio);
 
+  const valorUnidad = document.createElement("span");
+  valorUnidad.className = "precio-valor";
+  valorUnidad.textContent = formatearPrecio(producto.precio);
+
+  const etiquetaUnidad = document.createElement("span");
+  etiquetaUnidad.className = "etiqueta-unidad";
+  etiquetaUnidad.textContent = "Und.";
+
+  precio.append(valorUnidad, etiquetaUnidad);
   encabezado.append(nombre, precio);
   tarjeta.appendChild(encabezado);
 
-  // Información adicional.
+  // Categoría y marca.
   agregarDato(tarjeta, "Categoría", producto.categoria);
   agregarDato(tarjeta, "Marca", producto.marca);
+
+  // Precio por paquete o aviso de venta por unidad.
+  const infoPaquete = document.createElement("p");
+
+  if (producto.paquete !== null && producto.paquete > 0) {
+    infoPaquete.className = "precio-paquete";
+
+    const valorPaquete = document.createElement("span");
+    valorPaquete.className = "valor-paquete";
+    valorPaquete.textContent = formatearPrecio(producto.paquete);
+
+    const etiquetaPaquete = document.createElement("span");
+    etiquetaPaquete.className = "etiqueta-paquete";
+    etiquetaPaquete.textContent = " Paq.";
+
+    infoPaquete.append(valorPaquete, etiquetaPaquete);
+  } else {
+    infoPaquete.className = "solo-unidad";
+
+    const icono = document.createElement("span");
+    icono.className = "icono-informacion";
+    icono.textContent = "ⓘ";
+    icono.setAttribute("aria-hidden", "true");
+
+    const mensaje = document.createElement("span");
+    mensaje.textContent = "Solo venta por unidad";
+
+    infoPaquete.append(icono, mensaje);
+  }
+
+  tarjeta.appendChild(infoPaquete);
 
   // Disponibilidad según el inventario.
   const stock = document.createElement("span");
@@ -224,14 +284,14 @@ function buscarProductos() {
     ? `Encontramos ${encontrados.length} resultado(s).`
     : "No encontramos ese producto.";
 
-  // Mostrar máximo 3 productos por búsqueda
-const productosLimitados = encontrados.slice(0, 3);
+  // Mostrar máximo 3 productos por búsqueda.
+  const productosLimitados = encontrados.slice(0, 3);
 
-const tarjetas = productosLimitados.map(({ producto }) =>
-  crearTarjeta(producto)
-);
+  const tarjetas = productosLimitados.map(({ producto }) =>
+    crearTarjeta(producto)
+  );
 
-resultados.append(...tarjetas);
+  resultados.append(...tarjetas);
 }
 
 // Eventos del buscador.
