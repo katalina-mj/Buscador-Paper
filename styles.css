@@ -290,6 +290,9 @@ body {
     font-size: 23px;
     font-family: "ComfortaaRegular", sans-serif;
   }
+  .estado {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 11px;
 
   .etiqueta-unidad {
     font-size: 14px;
